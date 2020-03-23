@@ -1,1 +1,3 @@
-console.log('coucou');
+import { play } from './classes/game';
+
+play();
