@@ -1,4 +1,4 @@
-class Weapon {
+export default class Weapon {
   //Variables d'instance
   private _minDmg: number;
   private _maxDmg: number;

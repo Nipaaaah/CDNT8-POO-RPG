@@ -1,4 +1,6 @@
-class Hero extends Character {
+import Character from './character'
+
+export default class Hero extends Character {
   private _role: any; //Le role sera une enum
 
   //Constructeur

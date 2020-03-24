@@ -1,4 +1,6 @@
-class Character {
+import Weapon from '../Weapons/weapon';
+
+export default class Character {
   //Variables d'instance
   private _name: string;
   private _hp: number;

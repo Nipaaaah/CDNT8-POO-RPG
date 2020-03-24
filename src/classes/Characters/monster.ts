@@ -1,4 +1,6 @@
-class Monster extends Character {
+import Character from './character'
+
+export default class Monster extends Character {
 
   //Constructeur
   constructor(name = "", hp = 0, maxHp = 0, defense = 0) {
