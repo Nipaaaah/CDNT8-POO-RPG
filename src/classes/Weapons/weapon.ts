@@ -5,10 +5,10 @@ export default class Weapon {
   private _criticalChance: number;
 
   //Constructeur
-  constructor(minDmg = 0, maxDmg = 0, criticalChance = 0) {
-    this._minDmg = minDmg;
-    this._maxDmg = maxDmg;
-    this._criticalChance = criticalChance;
+  constructor() {
+    this._minDmg = Math.floor(Math.random() * 10) + 1;
+    this._maxDmg = Math.floor(Math.random() * 10) + 10;
+    this._criticalChance = Math.floor(Math.random() * 20) + 1;
   }
 
   //Getters et Setters

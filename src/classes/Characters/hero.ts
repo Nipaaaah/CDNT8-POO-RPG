@@ -1,4 +1,5 @@
 import Character from './character'
+import Weapon from '../Weapons/weapon';
 
 export default class Hero extends Character {
   private _role: any; //Le role sera une enum
@@ -20,8 +21,9 @@ export default class Hero extends Character {
 
   //Méthodes d'instance 
   // Permet de créer un Héros
-  createHero = () => {
-    // TODO: createHero function
+  // Params: son nom, son arme
+  createHero = (name: string, weapon: Weapon) => {
+    console.log(`Bienvenue ${name}, tu démarres avec une ${weapon.constructor.name}`);
   }
 
   // Permet à un héros de soigner un de ses alliés
