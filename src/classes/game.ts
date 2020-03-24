@@ -45,8 +45,9 @@ export default class Game {
     let hero = new Hero();
 
     const heroName: any = await this.questionName(readline);
-    const heroWeapon: Weapon = await this.questionWeapon(readline);
+    const heroWeapon: any = await this.questionWeapon(readline);
     hero.createHero(heroName, heroWeapon);
+    this.play();
   }
 
   // Permet de générer des monstres en fonction de l'équipe de héros
@@ -54,25 +55,25 @@ export default class Game {
     console.log("Attention des méchants !");
   }
 
-  public questionName = (readline: any) => {
+  public questionName = async (readline: any) => {
     return new Promise((resolve, reject) => {
       readline.question('Nom du personnage: ', (name: string) => {
-        resolve(heroName = name);
+        resolve(name);
       })
     })
   }
 
-  public questionWeapon = (readline: any) => {
+  public questionWeapon = async (readline: any) => {
     return new Promise((resolve, reject) => {
-      readline.question("Choix de l'arme: [1]Épée [2]Dague", (weapon: number) => {
+      readline.question("Choix de l'arme: [1]Épée [2]Dague", (weapon: string) => {
         switch (weapon) {
-          case 1:
+          case '1':
             console.log("Ah ! Un chevalier !");
-            resolve(heroWeapon = new Sword());
+            resolve(new Sword());
             break;
-          case 2:
+          case '2':
             console.log("Oooh, un voleur");
-            resolve(heroWeapon = new Dagger());
+            resolve(new Dagger());
             break;
           default:
             console.log('Commande invalide !')
