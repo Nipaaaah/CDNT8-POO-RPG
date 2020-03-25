@@ -1,5 +1,8 @@
-import Game from './classes/game';
+import Fight from './services/fight'
 
-console.log('Bienvenue dans les Royaumes Oubliés');
-let game = new Game();
-game.play();
+console.log('Welcome to the Forgotten Realms');
+const go = async () => {
+  Fight.game();
+}
+
+go();

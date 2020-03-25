@@ -1,26 +1,22 @@
-import Weapon from '../Weapons/weapon';
+import { Weapon } from '../Weapons/weapon';
 
-export default class Character {
+export class Character {
   //Variables d'instance
-  private _name: string;
-  private _hp: number;
-  private _maxHp: number;
-  private _defense: number;
-  private _weapon: Weapon;
+  _name: string;
+  _hp: number;
+  _maxHp: number;
+  _defense: number;
+  _weapon: Weapon;
+  _target?: Character;
 
   //Constructeur
-  constructor(
-    name = "",
-    hp = 0,
-    maxHp = 0,
-    defense = 0,
-    weapon = new Weapon()
-  ) {
+  constructor(name: string = "", weapon: Weapon = new Weapon()) {
     this._name = name;
-    this._hp = hp;
-    this._maxHp = maxHp;
-    this._defense = defense;
+    this._hp = Math.floor(Math.random() * 100 + 50);
+    this._maxHp = this._hp;
+    this._defense = Math.floor(Math.random() * 10);
     this._weapon = weapon;
+    this._target = undefined;
   }
 
   //Getters et setters
@@ -40,14 +36,6 @@ export default class Character {
     this._hp = hp;
   }
 
-  get maxHp() {
-    return this._maxHp;
-  }
-
-  set maxHp(maxHp: number) {
-    this._maxHp = maxHp;
-  }
-
   get defense() {
     return this._defense;
   }
@@ -64,16 +52,25 @@ export default class Character {
     this._weapon = weapon;
   }
 
-  //Méthodes d'instance
-  // Permet au personnage d'attaquer la cible adverse et lui retirer des PV
-  attack = (target: Character) => {
-    // TODO: add target();
-    // TODO: attack function 
+  get target(): Character | undefined {
+    return this._target;
   }
 
-  // Permet de cibler l'adversaire avant de l'attaquer
-  target = () => {
-    // TODO: target function
-    // Définir qui cible qui et check si personne target 2 fois la même cible
+  set target(target: Character | undefined) {
+    this._target = target;
+  }
+
+  //Méthodes d'instance
+  // Permet au personnage d'attaquer la cible adverse et lui retirer des PV
+  attack = (): string => {
+    let result = "";
+    if (this.target) {
+      let dmg = this.weapon.damage() - this.target.defense;
+      this.target.hp -= dmg;
+
+      result = `${this.name} attack ${this.target.name} and do ${dmg} points of damage ! ${this.target.name} has ${this.target.hp} hp left.`
+    }
+
+    return result;
   }
 }

@@ -1,84 +1,63 @@
 import * as readline from 'readline';
-import Hero from '../classes/Characters/hero';
-import Monster from '../classes/Characters/monster';
-import Sword from './Weapons/sword';
-import Dagger from './Weapons/dagger';
-import Weapon from './Weapons/weapon';
+import { Hero } from '../classes/Characters/hero';
+import { Monster } from '../classes/Characters/monster';
+import { Sword } from './Weapons/sword';
+import { Dagger } from './Weapons/dagger';
+import { Weapon } from './Weapons/weapon';
+import { Character } from './Characters/character';
+import { inputReader } from '../scripts/tools';
 
-export default class Game {
-  private _heros: Array<Hero>;
-  private _monsters: Array<Monster>;
+export class Game {
+  private _hero: Character;
+  private _monster: Character;
+  private _turn: string[];
 
-  constructor(heros = [], monsters = []) {
-    this._heros = heros;
-    this._monsters = monsters;
+  constructor(hero: Character, monster: Character) {
+    this._hero = hero;
+    this._monster = monster;
+    this._turn = []
   }
 
-  // Création d'une interface pour faire intéragir le joueur
-  public rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-  })
+  get hero(): Character {
+    return this._hero;
+  }
+
+  get monster(): Character {
+    return this._monster;
+  }
+
+  get turn(): string[] {
+    return this._turn;
+  }
+
+  set turn(turn: string[]) {
+    this._turn = turn;
+  }
 
   // Permet de lancer la partie
   // Demande au joueur s'il veut créer un personnage ou non
-  public play = () => {
-    return new Promise((resolve, reject) => {
-      this.rl.question('Créer un personnage ?  [o/n] ', (answer) => {
-        switch (answer.toLowerCase()) {
-          case 'o':
-            resolve(this.characterCreation(this.rl));
-            break;
-          case 'n':
-            resolve(this.generateMonsters());
-            break;
-          default:
-            reject(console.log('Commande invalide !'));
-        }
-      });
-    });
+  public static play = async () => {
+    let heroName = await inputReader('Name your Hero:');
+    let weapon = await Game.weaponChoice() as Weapon;
+    let hero = new Hero(heroName, weapon);
+    let monster = new Monster();
+    return new Game(hero, monster);
   }
 
-  // Permet au joueur de rentrer le nom et l'arme du héros qui sera créé
-  public characterCreation = async (readline: any) => {
-    console.log("Création du héros")
-    let hero = new Hero();
+  public static weaponChoice = async () => {
+    let weapon = new Weapon();
+    let choice = await inputReader(
+      'Choose your weapon : [1]Sword - [2]Dagger'
+    )
+    console.log(choice);
+    if (choice === JSON.stringify(1)) {
+      weapon = new Sword();
+    } else if (choice === JSON.stringify(2)) {
+      weapon = new Dagger();
+    } else {
+      Game.weaponChoice();
+    }
 
-    const heroName: any = await this.questionName(readline);
-    const heroWeapon: any = await this.questionWeapon(readline);
-    hero.createHero(heroName, heroWeapon);
-    this.play();
-  }
-
-  // Permet de générer des monstres en fonction de l'équipe de héros
-  public generateMonsters = () => {
-    console.log("Attention des méchants !");
-  }
-
-  public questionName = async (readline: any) => {
-    return new Promise((resolve, reject) => {
-      readline.question('Nom du personnage: ', (name: string) => {
-        resolve(name);
-      })
-    })
-  }
-
-  public questionWeapon = async (readline: any) => {
-    return new Promise((resolve, reject) => {
-      readline.question("Choix de l'arme: [1]Épée [2]Dague", (weapon: string) => {
-        switch (weapon) {
-          case '1':
-            console.log("Ah ! Un chevalier !");
-            resolve(new Sword());
-            break;
-          case '2':
-            console.log("Oooh, un voleur");
-            resolve(new Dagger());
-            break;
-          default:
-            console.log('Commande invalide !')
-        }
-      });
-    });
-  }
+    return weapon;
+  };
 }

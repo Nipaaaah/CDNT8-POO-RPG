@@ -1,8 +1,8 @@
-export default class Weapon {
+export class Weapon {
   //Variables d'instance
-  private _minDmg: number;
-  private _maxDmg: number;
-  private _criticalChance: number;
+  _minDmg: number;
+  _maxDmg: number;
+  _criticalChance: number;
 
   //Constructeur
   constructor() {
@@ -11,28 +11,11 @@ export default class Weapon {
     this._criticalChance = Math.floor(Math.random() * 20) + 1;
   }
 
-  //Getters et Setters
-  get minDmg() {
-    return this._minDmg;
-  }
+  damage = () => {
+    let dmg = Math.floor(Math.random() * (this._maxDmg - this._minDmg)) + this._minDmg;
+    let rand = Math.random();
+    rand < this._criticalChance && dmg * 1.5;
 
-  set minDmg(minDmg: number) {
-    this._minDmg = minDmg;
-  }
-
-  get maxDmg() {
-    return this._maxDmg;
-  }
-
-  set maxDmg(maxDmg: number) {
-    this._maxDmg = maxDmg;
-  }
-
-  get criticalChance() {
-    return this._criticalChance;
-  }
-
-  set criticalChance(criticalChance: number) {
-    this._criticalChance = criticalChance;
+    return dmg;
   }
 }

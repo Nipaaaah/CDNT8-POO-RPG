@@ -1,5 +1,8 @@
-import Weapon from './weapon'
+import { Weapon } from './weapon'
 
-export default class Sword extends Weapon {
-
+export class Sword extends Weapon {
+  constructor() {
+    super();
+    this._minDmg * 2;
+  }
 }

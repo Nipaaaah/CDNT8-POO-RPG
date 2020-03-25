@@ -1,6 +1,8 @@
-import Weapon from './weapon'
+import { Weapon } from './weapon'
 
-export default class Dagger extends Weapon {
-
-
+export class Dagger extends Weapon {
+  constructor() {
+    super();
+    this._criticalChance * 1.5;
+  }
 }

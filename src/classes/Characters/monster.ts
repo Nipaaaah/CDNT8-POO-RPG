@@ -1,13 +1,17 @@
-import Character from './character'
+import { Character } from './character'
+import { Weapon } from '../Weapons/weapon';
 
-export default class Monster extends Character {
+export class Monster extends Character {
 
   //Constructeur
-  constructor(name = "", hp = 0, maxHp = 0, defense = 0) {
-    super(name, hp, maxHp, defense);
+  constructor() {
+    super();
+    this._name = this.randomName();
+    this._weapon = new Weapon();
   }
 
   randomName = () => {
-    // TODO: randomName function
+    let name = Math.random().toString(36).replace(/[^a-z]+/g, '')
+    return name[0].toUpperCase() + name.substring(1)
   }
 }
